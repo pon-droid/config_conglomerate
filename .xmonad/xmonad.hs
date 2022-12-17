@@ -15,7 +15,7 @@ import XMonad.Layout.Tabbed
 
 main :: IO ()
 main = do
-	xmproc <- spawnPipe "xmobar -x 0 /home/tgallaher/.config/xmobar/xmobarrc"
+	xmproc <- spawnPipe "xmobar -x 0 /home/tgallaher/xmobarrc"
 	staloneproc <- spawnPipe "stalonetray"
 	xmonad $ ewmhFullscreen $ ewmh $ docks myConfig
 --      xmonad $ ewmh $ docks myConfig	
