@@ -30,7 +30,7 @@
  ;; If there is more than one, they won't work right.
  '(org-babel-load-languages '((C . t)))
  '(package-selected-packages
-   '(lsp-mode rustic rust-mode flycheck-rust pdf-tools ereader nov edit-indirect org-download org-pomodoro org-bullets magit elmacro anki-editor go-mode langtool emms org ## use-package company-irony flycheck autumn-light-theme company-c-headers company slime))
+   '(languagetool irony lsp-mode rustic rust-mode flycheck-rust pdf-tools ereader nov edit-indirect org-download org-pomodoro org-bullets magit elmacro anki-editor go-mode langtool org ## use-package company-irony flycheck autumn-light-theme company-c-headers company slime))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types '((comp))))
 (custom-set-faces
@@ -55,15 +55,13 @@
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-;;(with-eval-after-load 'rust-mode
-;;  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
 
 
 (use-package company-irony
   :ensure t
   :config
-  (eval-after-load 'company
- '(add-to-list 'company-backends 'company-irony)))
+  (add-to-list 'company-backends 'company-irony))
 
 ;;(setq company-minimum-prefix-length 1)
 
@@ -71,10 +69,13 @@
   :ensure t
   :init (global-flycheck-mode))
 
+
+
 (use-package org
   :ensure t
   :config
-  (setq org-agenda-files '("~/todo.org")))
+  (setq org-agenda-files '("~/todo.org"))
+  (setq org-latex-compiler "latexmk"))
 
 ;;(use-package langtool
 ;;  :ensure t
@@ -86,25 +87,30 @@
   :config
   (setq anki-editor-create-decks t))
 
-(use-package lsp-mode)
+;;(use-package lsp-mode)
 
 (use-package rustic)
 
+(use-package org-pomodoro
+  :ensure t
+  :config
+  (setq org-pomodoro-audio-player "mpv"))
 
-;;(require 'org-download)
+
+(require 'org-download)
 
 ;; Drag-and-drop to `dired`
-;;(add-hook 'dired-mode-hook 'org-download-enable)
+(add-hook 'dired-mode-hook 'org-download-enable)
 
-;;(setq-default org-download-method 'directory
-	      ;;              org-download-image-dir "~/Desktop/school/anki/Engineering/imgs/"
-;;	      org-download-image-dir "./imgs/"
-;;              org-download-heading-lvl nil
-;;              org-download-delete-image-after-download t
-;;              org-download-screenshot-method "flameshot gui --raw > %s"
-;;              org-download-image-org-width 600
-;;             org-download-annotate-function (lambda (link) "") ;; Don't annotate
-;;              )
+(setq-default org-download-method 'directory
+	      ;;             org-download-image-dir "~/Desktop/school/anki/Engineering/imgs/"
+	      org-download-image-dir "./imgs/"
+              org-download-heading-lvl nil
+              org-download-delete-image-after-download t
+              org-download-screenshot-method "flameshot gui --raw > %s"
+              org-download-image-org-width 600
+              org-download-annotate-function (lambda (link) "") ;; Don't annotate
+)
 
 (defun pond-anki-boilerplate ()
   "Generate note of type 'Basic' with text input"
@@ -119,7 +125,12 @@
   (insert "*** Back\n"(read-string "Enter Back:"))
   (insert "\n"))
 
-(global-set-key (kbd "C-`") 'pond-anki-boilerplate)
+(defun kill-other-buffers ()
+    "kill all other buffers."
+     (interactive)
+     (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+(global-set-key (kbd "C-`") 'kill-other-buffers)
 
 
 (global-set-key (kbd "<print>") 'org-download-screenshot)
@@ -130,11 +141,28 @@
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
+
+
 (use-package edit-indirect
   :ensure t
 )
 
 (use-package magit)
+(use-package languagetool
+  :ensure t
+  :defer t
+  :commands (languagetool-check
+             languagetool-clear-suggestions
+             languagetool-correct-at-point
+             languagetool-correct-buffer
+             languagetool-set-language
+             languagetool-server-mode
+             languagetool-server-start
+             languagetool-server-stop)
+  :config
+  (setq languagetool-java-arguments '("-Dfile.encoding=UTF-8")
+        languagetool-console-command "~/ext-git/langtool/LanguageTool-5.9-stable/languagetool-commandline.jar"
+        languagetool-server-command "~/ext-git/langtool/LanguageTool-5.9-stable/languagetool-server.jar"))
 
 
 ;;(use-package pdf-tools

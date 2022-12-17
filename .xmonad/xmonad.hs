@@ -17,7 +17,8 @@ main :: IO ()
 main = do
 	xmproc <- spawnPipe "xmobar -x 0 /home/tgallaher/.config/xmobar/xmobarrc"
 	staloneproc <- spawnPipe "stalonetray"
-	xmonad $ ewmhFullscreen $ docks $ ewmh $ myConfig
+	xmonad $ ewmhFullscreen $ ewmh $ docks myConfig
+--      xmonad $ ewmh $ docks myConfig	
 
 	
 myConfig = def
@@ -37,7 +38,7 @@ myConfig = def
 	          ,sendMessage ToggleStruts  
 	          ,spawn "sh /home/tgallaher/.xmonad/stalone.sh"] ) 
 	, ("M-p"  ,spawn "rofi -show drun &")
-	, ("M-S-p",  spawn "rofi -show run")
+	, ("M-S-p",  spawn "rofi -show run &")
 
 	]
 	
