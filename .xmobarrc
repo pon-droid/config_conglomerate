@@ -1,4 +1,4 @@
-Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
+Config { font = "Input Mono 8"
        , additionalFonts = []
        , borderColor = "black"
        , border = TopB

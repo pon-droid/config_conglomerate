@@ -1,8 +1,8 @@
 $ ghc --make xmonad.hs -i -ilib -fforce-recomp -main-is main -v0 -outputdir /home/tgallaher/.xmonad/build-x86_64-linux -o /home/tgallaher/.xmonad/xmonad-x86_64-linux
 
-xmonad.hs:18:1: warning: [-Wtabs]
-    Tab character found here, and in 27 further locations.
-    Please use spaces instead.
+xmonad.hs:19:1: warning: [-Wtabs]
+    Tab character found here, and in 26 further locations.
+    Suggested fix: Please use spaces instead.
    |
-18 |         xmproc <- spawnPipe "xmobar -x 0 /home/tgallaher/.config/xmobar/xmobarrc"
+19 |         xmproc <- spawnPipe "xmobar -x 0 /home/tgallaher/.xmobarrc"
    | ^^^^^^^^

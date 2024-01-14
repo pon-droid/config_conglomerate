@@ -14,7 +14,8 @@
 
 (setq visible-bell t)
 
-
+(setq langtool-language-tool-jar "/home/tgallaher/ext-git/langtool/LanguageTool-6.0/languagetool-commandline.jar")
+(require 'langtool)
 
 (use-package autumn-light-theme
   :ensure t
@@ -30,7 +31,7 @@
  ;; If there is more than one, they won't work right.
  '(org-babel-load-languages '((C . t)))
  '(package-selected-packages
-   '(languagetool irony lsp-mode rustic rust-mode flycheck-rust pdf-tools ereader nov edit-indirect org-download org-pomodoro org-bullets magit elmacro anki-editor go-mode langtool org ## use-package company-irony flycheck autumn-light-theme company-c-headers company slime))
+   '(fennel-mode org-noter company-php company-anaconda web-mode-edit-element web-mode auctex languagetool irony lsp-mode rustic rust-mode flycheck-rust pdf-tools ereader nov edit-indirect org-download org-pomodoro org-bullets magit elmacro anki-editor go-mode langtool org ## use-package company-irony flycheck autumn-light-theme company-c-headers company slime))
  '(warning-suppress-log-types '((comp)))
  '(warning-suppress-types '((comp))))
 (custom-set-faces
@@ -55,8 +56,7 @@
   (add-hook 'c-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-
-
+(setq bibtex-dialect 'biblatex)
 
 (use-package company-irony
   :ensure t
@@ -87,7 +87,18 @@
   :config
   (setq anki-editor-create-decks t))
 
-;;(use-package lsp-mode)
+;;(use-package lsp-mode
+;;  :config
+;;(setq lsp--tcp-server-port 11111)
+;;  (setq lsp-serenata-server-path "/home/tgallaher/ext-git/serenata.php")
+;;  (setq lsp-enabled-clients '(serenata))
+;;  (setq lsp-disabled-clients '(php-ls iph intelephense))
+;;  :hook (php-mode . lsp)
+;;  :commands (lsp lsp-deferred)
+;;  )
+
+
+
 
 (use-package rustic)
 
@@ -122,8 +133,9 @@
   (insert "*** Front\n"(read-string "Enter Front:"))
 
   (insert "\n")
-  (insert "*** Back\n"(read-string "Enter Back:"))
-  (insert "\n"))
+  (insert "*** Back\n"))
+
+;;(define-key anki-editor-mode  (kbd "C-c o") 'pond-anki-boilerplate)
 
 (defun kill-other-buffers ()
     "kill all other buffers."
@@ -176,6 +188,15 @@
 ;;   (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
 
 
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+
 
 
 (defun set-exec-path-from-shell-PATH ()
@@ -193,3 +214,5 @@ apps are not started from a shell."
     (setq exec-path (split-string path-from-shell path-separator))))
 
 (set-exec-path-from-shell-PATH)
+
+(find-file "~/todo.org")
